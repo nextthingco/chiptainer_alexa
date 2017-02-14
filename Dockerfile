@@ -3,6 +3,8 @@ FROM ntc-registry.githost.io/nextthingco/chiptainer_alpine
 
 COPY *.patch /tmp/
 
+VOLUME /data --name alexaConfig
+
 RUN apk update && \
 	apk add python-dev && \
 	apk add py-setuptools && \
@@ -45,8 +47,4 @@ RUN apk update && \
 	apk del g++ && \
 	apk del gcc && \
 	apk del make && \
-	apk del py2-pip && \
-
-	mkdir /data
-
-VOLUME /data
+	apk del py2-pip
