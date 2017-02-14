@@ -45,4 +45,4 @@ RUN apk update && \
 	apk del g++ && \
 	apk del gcc && \
 	apk del make && \
-	apk del py2-pip && \
+	apk del py2-pip
