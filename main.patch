@@ -1,0 +1,50 @@
+--- main.py	2017-02-14 13:01:33.083942183 -0800
++++ ../AlexaPi2/main.py	2017-02-14 12:59:34.735365499 -0800
+@@ -3,7 +3,7 @@
+ import os
+ import random
+ import time
+-import RPi.GPIO as GPIO
++import CHIP_IO.GPIO as GPIO
+ import alsaaudio
+ import wave
+ import random
+@@ -14,9 +14,9 @@
+ from memcache import Client
+ 
+ #Settings
+-button = 18 #GPIO Pin with button connected
+-lights = [24, 25] # GPIO Pins with LED's conneted
+-device = "plughw:1" # Name of your microphone/soundcard in arecord -L
++button = "CSID0" #GPIO Pin with button connected
++lights = ["CSID1", "CSID2"] # GPIO Pins with LED's conneted
++device = "default" # Name of your microphone/soundcard in arecord -L
+ 
+ #Setup
+ recorded = False
+@@ -112,7 +112,10 @@
+ 	last = GPIO.input(button)
+ 	while True:
+ 		val = GPIO.input(button)
+-		GPIO.wait_for_edge(button, GPIO.FALLING) # we wait for the button to be pressed
++		while(GPIO.input(button)==1): # wait until button is pushed
++			time.sleep(0.01)
++
++		print( "RECORDING...")
+ 		GPIO.output(lights[1], GPIO.HIGH)
+ 		inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE, alsaaudio.PCM_NORMAL, device)
+ 		inp.setchannels(1)
+@@ -137,8 +140,11 @@
+ 	GPIO.cleanup()
+ 	GPIO.setmode(GPIO.BCM)
+ 	GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+-	GPIO.setup(lights, GPIO.OUT)
+-	GPIO.output(lights, GPIO.LOW)
++	GPIO.setup(lights[0], GPIO.OUT)
++	GPIO.setup(lights[1], GPIO.OUT)
++	GPIO.output(lights[0], GPIO.LOW)
++	GPIO.output(lights[1], GPIO.LOW)
++
+ 	while internet_on() == False:
+ 		print "."
+ 	token = gettoken()

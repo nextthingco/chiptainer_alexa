@@ -1,6 +1,8 @@
 # Base off the Docker container that includes Alpine for installing packages.
 FROM ntc-registry.githost.io/nextthingco/chiptainer_alpine
 
+COPY *.patch /tmp/
+
 RUN apk update && \
 	apk add python-dev && \
 	apk add py-setuptools && \
@@ -24,6 +26,7 @@ RUN apk update && \
         # Remove CHIP_IO source code directory after it has been installed
         cd ../ && rm -rf CHIP_IO && \
 	
+	# Download/build audio libaries and AlexaPi project
 	pip install --upgrade pip && \
 	git clone https://github.com/Valodim/python-pulseaudio.git && \
 	cd python-pulseaudio && \

@@ -1,0 +1,27 @@
+--- setup.sh	2017-02-14 13:01:33.083942183 -0800
++++ ../AlexaPi2/setup.sh	2017-02-14 12:47:04.389024519 -0800
+@@ -1,12 +1,4 @@
+-#! /bin/bash
+-
+-apt-get update
+-apt-get install libasound2-dev memcached mpg123 python-alsaaudio -y
+-easy_install pip
+-pip install -r requirements.txt
+-cp initd_alexa.sh /etc/init.d/AlexaPi
+-update-rc.d AlexaPi defaults
+-touch /var/log/alexa.log
++#! /bin/sh
+ 
+ echo "Enter your Device Type ID :"
+ read productid
+@@ -28,9 +20,8 @@
+ read secret
+ echo Client_Secret = \"$secret\" >> creds.py
+ 
+-ip=`hostname -I`
+ python ./auth_web.py 
+-echo "Open http://$ip:5000"
++echo "Open http://$HOSTIP:5000"
+ 
+ echo "You can now reboot"
+ 
