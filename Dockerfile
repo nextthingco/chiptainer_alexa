@@ -35,6 +35,8 @@ RUN apk update && \
 	git clone https://github.com/sammachin/AlexaPi.git && \
 	cd AlexaPi && \
 	pip install -r requirements.txt && \
+	patch < /tmp/setup.patch
+	patch < /tmp/main.patch
 
 	# Remove packages no longer needed.
 	apk del git && \
@@ -43,4 +45,4 @@ RUN apk update && \
 	apk del g++ && \
 	apk del gcc && \
 	apk del make && \
-	apk del py2-pip
+	apk del py2-pip && \
