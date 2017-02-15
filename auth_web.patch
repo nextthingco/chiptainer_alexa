@@ -1,0 +1,19 @@
+--- /home/andrew/Github/AlexaPi/auth_web.py	2017-02-14 13:01:33.083942183 -0800
++++ /home/andrew/Github/AlexaPi2/auth_web.py	2017-02-14 17:06:53.518320988 -0800
+@@ -38,8 +38,12 @@
+ 		return "Success!, refresh token has been added to your creds file, you may now reboot the Pi <br>{}".format(resp['refresh_token'])
+ 	index.exposed = True
+ 	code.exposed = True
+-		
+-cherrypy.config.update({'server.socket_host': '0.0.0.0',})
+-cherrypy.config.update({'server.socket_port': int(os.environ.get('PORT', '5000')),})
+-cherrypy.quickstart(Start())
++
++ip = os.environ['HOSTIP']
++if ip == None or ip == "" or ip == " ":
++	raise Exception( 'No host IP address found! Please set this variable when running the docker container.')
++else:
++	cherrypy.config.update({'server.socket_host': ip,})		
++	cherrypy.config.update({'server.socket_port': int(os.environ.get('PORT', '5000')),})
++	cherrypy.quickstart(Start())
+ 

@@ -3,8 +3,6 @@ FROM ntc-registry.githost.io/nextthingco/chiptainer_alpine
 
 COPY *.patch /tmp/
 
-VOLUME /data --name alexaConfig
-
 RUN apk update && \
 	apk add python-dev && \
 	apk add py-setuptools && \
@@ -40,6 +38,7 @@ RUN apk update && \
 	pip install pyalsaaudio && \
 	patch < /tmp/setup.patch && \
 	patch < /tmp/main.patch && \
+	patch < /tmp/auth_web.patch && \
 
 	# Remove packages no longer needed.
 	apk del git && \
