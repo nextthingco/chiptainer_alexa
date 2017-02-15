@@ -10,7 +10,6 @@ RUN apk update && \
 	apk add py-setuptools && \
 	apk add memcached-dev && \
 	apk add mpg123 && \
-	apk add alsa-lib-dev && \
 	apk add git && \
 	apk add flex && \
 	apk add bison && \
@@ -37,6 +36,7 @@ RUN apk update && \
 	git clone https://github.com/sammachin/AlexaPi.git && \
 	cd AlexaPi && \
 	pip install -r requirements.txt && \
+	pip install pyalsaaudio && \
 	patch < /tmp/setup.patch && \
 	patch < /tmp/main.patch && \
 
