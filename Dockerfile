@@ -8,6 +8,7 @@ VOLUME /data --name alexaConfig
 RUN apk update && \
 	apk add python-dev && \
 	apk add py-setuptools && \
+	apk add alsa-lib-dev && \
 	apk add memcached-dev && \
 	apk add mpg123 && \
 	apk add git && \
@@ -26,7 +27,7 @@ RUN apk update && \
         cd CHIP_IO && python setup.py install && \
         # Remove CHIP_IO source code directory after it has been installed
         cd ../ && rm -rf CHIP_IO && \
-	
+
 	# Download/build audio libaries and AlexaPi project
 	pip install --upgrade pip && \
 	git clone https://github.com/Valodim/python-pulseaudio.git && \
