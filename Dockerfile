@@ -48,7 +48,3 @@ RUN apk update && \
 	apk del gcc && \
 	apk del make && \
 	apk del py2-pip
-
-ENTRYPOINT /bin/sh /etc/init.d/avahi-daemon restart && \
-	./OctoPrint/venv/bin/octoprint --iknowwhatimdoing --host 0.0.0.0 --port 80 --basedir /data/octoprint  && \
-	/bin/sh
