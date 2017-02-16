@@ -1,6 +1,14 @@
 --- /home/andrew/Github/AlexaPi/auth_web.py	2017-02-14 13:01:33.083942183 -0800
-+++ /home/andrew/Github/AlexaPi2/auth_web.py	2017-02-15 15:14:05.412498386 -0800
-@@ -38,8 +38,24 @@
++++ /home/andrew/Github/AlexaPi2/auth_web.py	2017-02-15 16:08:12.048888390 -0800
+@@ -3,6 +3,7 @@
+ import cherrypy
+ import os
+ from cherrypy.process import servers
++import subprocess
+ import requests
+ import json
+ from creds import *
+@@ -38,8 +39,30 @@
  		return "Success!, refresh token has been added to your creds file, you may now reboot the Pi <br>{}".format(resp['refresh_token'])
  	index.exposed = True
  	code.exposed = True
@@ -24,8 +32,14 @@
 +	os.system("exit")
 +else:
 +        ip = ip.rstrip()
-+        cherrypy.config.update({'server.socket_host': ip,})
-+        cherrypy.config.update({'server.socket_port': int(os.environ.get('PORT', '5000')),})
-+        cherrypy.quickstart(Start())
++	subprocess.Popen('sleep 1 && echo "" && echo "To validate your settings, do the following steps:"', shell=True)
++	subprocess.Popen('sleep 1.1 && printf "Go to your https://developer.amazon.com account, \nnavigate to the Alexa settings, \nclick on Security Profile, \nand add these addresses under Web Settings:\n"', shell=True)
++	subprocess.Popen('sleep 1.2 && echo "" && echo "Allowed Origins: http://' + ip + ':5000"', shell=True)
++	subprocess.Popen('sleep 1.3 && echo "Allowed Return URL: http://' + ip + ':5000/code"', shell=True)
++	subprocess.Popen('sleep 1.4 && echo "" && echo "Then in your web browser, go to http://' + ip + ':5000 and follow the instructions."', shell=True)
++
++	cherrypy.config.update({'server.socket_host': ip,})
++	cherrypy.config.update({'server.socket_port': int(os.environ.get('PORT', '5000')),})
++	cherrypy.quickstart(Start())
 +
  

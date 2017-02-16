@@ -1,5 +1,5 @@
 --- /home/andrew/Github/AlexaPi/setup.sh	2017-02-14 13:01:33.083942183 -0800
-+++ /home/andrew/Github/AlexaPi2/setup.sh	2017-02-14 17:05:58.437896286 -0800
++++ /home/andrew/Github/AlexaPi2/setup.sh	2017-02-15 16:09:54.201749705 -0800
 @@ -1,12 +1,6 @@
 -#! /bin/bash
 +#! /bin/sh
@@ -15,7 +15,7 @@
  
  echo "Enter your Device Type ID :"
  read productid
-@@ -28,9 +22,7 @@
+@@ -28,9 +22,8 @@
  read secret
  echo Client_Secret = \"$secret\" >> creds.py
  
@@ -24,5 +24,7 @@
 -echo "Open http://$ip:5000"
 +python ./auth_web.py
  
- echo "You can now reboot"
+-echo "You can now reboot"
++echo "Starting Alexa..."
++python main.py
  
