@@ -1,6 +1,6 @@
 --- /home/andrew/Github/AlexaPi/setup.sh	2017-02-14 13:01:33.083942183 -0800
-+++ /home/andrew/Github/AlexaPi2/setup.sh	2017-02-15 16:09:54.201749705 -0800
-@@ -1,12 +1,6 @@
++++ /home/andrew/Github/AlexaPi2/setup.sh	2017-02-16 16:08:52.594929084 -0800
+@@ -1,12 +1,7 @@
 -#! /bin/bash
 +#! /bin/sh
  
@@ -12,19 +12,27 @@
 -update-rc.d AlexaPi defaults
 -touch /var/log/alexa.log
 +echo "" > creds.py
++rm alexaToken.py 2>&1
  
  echo "Enter your Device Type ID :"
  read productid
-@@ -28,9 +22,8 @@
+@@ -28,9 +23,15 @@
  read secret
  echo Client_Secret = \"$secret\" >> creds.py
  
 -ip=`hostname -I`
 -python ./auth_web.py 
 -echo "Open http://$ip:5000"
-+python ./auth_web.py
++printf "\nStarting web server..."
  
 -echo "You can now reboot"
++python ./auth_web.py &
++
++while [ ! -f alexaToken.py ];
++do
++    sleep 1;
++done;
++
 +echo "Starting Alexa..."
 +python main.py
  

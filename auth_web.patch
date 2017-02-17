@@ -1,15 +1,33 @@
 --- /home/andrew/Github/AlexaPi/auth_web.py	2017-02-14 13:01:33.083942183 -0800
-+++ /home/andrew/Github/AlexaPi2/auth_web.py	2017-02-15 16:08:12.048888390 -0800
-@@ -3,6 +3,7 @@
++++ /home/andrew/Github/AlexaPi2/auth_web.py	2017-02-16 16:04:45.312969875 -0800
+@@ -3,9 +3,12 @@
  import cherrypy
  import os
  from cherrypy.process import servers
 +import subprocess
++import time
  import requests
  import json
  from creds import *
-@@ -38,8 +39,30 @@
- 		return "Success!, refresh token has been added to your creds file, you may now reboot the Pi <br>{}".format(resp['refresh_token'])
++from alexaToken import *
+ import urllib
+ 
+ class Start(object):
+@@ -32,14 +35,39 @@
+ 		url = "https://api.amazon.com/auth/o2/token"
+ 		r = requests.post(url, data = payload)
+ 		resp = r.json()
+-		line = 'refresh_token = "{}"'.format(resp['refresh_token'])
+-		with open("creds.py", 'a') as f:
+-			f.write(line)
+-		return "Success!, refresh token has been added to your creds file, you may now reboot the Pi <br>{}".format(resp['refresh_token'])
++		line = "refresh_token = \"" + resp['refresh_token'] + "\""
++                subprocess.call('echo -n > alexaToken.py',shell=True)
++                with open("alexaToken.py", 'a') as f:
++                        f.write(line)
++
++		return "Success! The refresh token has been added to your directory. Alexa is now starting on your device. You may close this browser.<br>"
++		quit()
  	index.exposed = True
  	code.exposed = True
 -		

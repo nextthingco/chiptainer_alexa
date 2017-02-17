@@ -1,6 +1,6 @@
 --- /home/andrew/Github/AlexaPi/main.py	2017-02-14 13:01:33.083942183 -0800
-+++ /home/andrew/Github/AlexaPi2/main.py	2017-02-14 17:06:32.158156287 -0800
-@@ -3,20 +3,20 @@
++++ /home/andrew/Github/AlexaPi2/main.py	2017-02-16 16:07:19.002188169 -0800
+@@ -3,20 +3,21 @@
  import os
  import random
  import time
@@ -14,6 +14,7 @@
  import json
  import re
 +from creds import *
++from alexaToken import *
  from memcache import Client
  
  #Settings
@@ -26,7 +27,7 @@
  
  #Setup
  recorded = False
-@@ -24,8 +24,6 @@
+@@ -24,8 +25,6 @@
  mc = Client(servers, debug=1)
  path = os.path.realpath(__file__).rstrip(os.path.basename(__file__))
  
@@ -35,7 +36,7 @@
  def internet_on():
      print "Checking Internet Connection"
      try:
-@@ -112,7 +110,10 @@
+@@ -112,7 +111,10 @@
  	last = GPIO.input(button)
  	while True:
  		val = GPIO.input(button)
@@ -47,7 +48,7 @@
  		GPIO.output(lights[1], GPIO.HIGH)
  		inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE, alsaaudio.PCM_NORMAL, device)
  		inp.setchannels(1)
-@@ -137,8 +138,11 @@
+@@ -137,8 +139,11 @@
  	GPIO.cleanup()
  	GPIO.setmode(GPIO.BCM)
  	GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
