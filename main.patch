@@ -1,5 +1,5 @@
 --- /home/andrew/Github/AlexaPi/main.py	2017-02-14 13:01:33.083942183 -0800
-+++ /home/andrew/Github/AlexaPi2/main.py	2017-02-16 16:18:28.479540407 -0800
++++ /home/andrew/Github/AlexaPi2/main.py	2017-02-16 17:02:13.009088622 -0800
 @@ -3,20 +3,21 @@
  import os
  import random
@@ -36,23 +36,32 @@
  def internet_on():
      print "Checking Internet Connection"
      try:
-@@ -110,9 +109,14 @@
+@@ -110,9 +109,13 @@
  
  def start():
  	last = GPIO.input(button)
-+	print("Activity LED's have been set up on " + button[0] + " and " + button[1]) + "."
++	print("Activity LED's have been set up on " + lights[0] + " and " + lights[1] + ".")
  	while True:
-+		print("Waiting for user to press a button that sets " + button + " to HIGH..."
- 		val = GPIO.input(button)
+-		val = GPIO.input(button)
 -		GPIO.wait_for_edge(button, GPIO.FALLING) # we wait for the button to be pressed
-+		while(GPIO.input(button)==1): # wait until button is pushed
++		print("Waiting for user to press a button that sets " + button + " to HIGH...")
++		while(GPIO.input(button)==0): # wait until button is pushed
 +			time.sleep(0.01)
 +
 +		print("RECORDING... release button when done...")
  		GPIO.output(lights[1], GPIO.HIGH)
  		inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE, alsaaudio.PCM_NORMAL, device)
  		inp.setchannels(1)
-@@ -128,6 +132,7 @@
+@@ -120,7 +123,7 @@
+ 		inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
+ 		inp.setperiodsize(500)
+ 		audio = ""
+-		while(GPIO.input(button)==0): # we keep recording while the button is pressed
++		while(GPIO.input(button)==1): # we keep recording while the button is pressed
+ 			l, data = inp.read()
+ 			if l:
+ 				audio += data
+@@ -128,6 +131,7 @@
  		rf.write(audio)
  		rf.close()
  		inp = None
@@ -60,7 +69,7 @@
  		alexa()
  
  	
-@@ -137,8 +142,11 @@
+@@ -137,8 +141,11 @@
  	GPIO.cleanup()
  	GPIO.setmode(GPIO.BCM)
  	GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)

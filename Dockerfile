@@ -48,3 +48,7 @@ RUN apk update && \
 	apk del gcc && \
 	apk del make && \
 	apk del py2-pip
+
+ENTRYPOINT cd AlexaPi && \
+        /bin/sh setup.sh auto && \
+        /bin/sh

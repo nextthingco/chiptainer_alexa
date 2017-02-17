@@ -1,6 +1,6 @@
 --- /home/andrew/Github/AlexaPi/setup.sh	2017-02-14 13:01:33.083942183 -0800
-+++ /home/andrew/Github/AlexaPi2/setup.sh	2017-02-16 16:38:45.149380899 -0800
-@@ -1,36 +1,42 @@
++++ /home/andrew/Github/AlexaPi2/setup.sh	2017-02-16 17:03:51.673913332 -0800
+@@ -1,36 +1,44 @@
 -#! /bin/bash
 +#! /bin/sh
  
@@ -43,7 +43,9 @@
 +
 +if [ ! -f creds.py ] || [ $1 = "auto" ] ; then
 +	echo "" > creds.py
-+	rm alexaToken.py 2>&1
++	if [ -f alexaToken.py ] ; then
++		rm alexaToken.py 2>&1
++	fi
 +
 +	echo "Enter your Device Type ID :"
 +	read productid
