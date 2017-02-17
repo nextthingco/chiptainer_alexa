@@ -1,6 +1,6 @@
 --- /home/andrew/Github/AlexaPi/setup.sh	2017-02-14 13:01:33.083942183 -0800
-+++ /home/andrew/Github/AlexaPi2/setup.sh	2017-02-16 16:08:52.594929084 -0800
-@@ -1,12 +1,7 @@
++++ /home/andrew/Github/AlexaPi2/setup.sh	2017-02-16 16:38:45.149380899 -0800
+@@ -1,36 +1,42 @@
 -#! /bin/bash
 +#! /bin/sh
  
@@ -11,28 +11,69 @@
 -cp initd_alexa.sh /etc/init.d/AlexaPi
 -update-rc.d AlexaPi defaults
 -touch /var/log/alexa.log
-+echo "" > creds.py
-+rm alexaToken.py 2>&1
- 
- echo "Enter your Device Type ID :"
- read productid
-@@ -28,9 +23,15 @@
- read secret
- echo Client_Secret = \"$secret\" >> creds.py
- 
+-
+-echo "Enter your Device Type ID :"
+-read productid
+-echo ProductID = \"$productid\" >> creds.py
+-
+-echo "Enter your Security Profile Description:"
+-read spd
+-echo Security_Profile_Description = \"$spd\" >> creds.py
+-
+-echo "Enter your Security Profile ID:"
+-read spid
+-echo Security_Profile_ID = \"$spid\" >> creds.py
+-
+-echo "Enter your Security Client ID:"
+-read cid
+-echo Client_ID = \"$cid\" >> creds.py
+-
+-echo "Enter your Security Client Secret:"
+-read secret
+-echo Client_Secret = \"$secret\" >> creds.py
+-
 -ip=`hostname -I`
 -python ./auth_web.py 
 -echo "Open http://$ip:5000"
-+printf "\nStarting web server..."
- 
+-
 -echo "You can now reboot"
-+python ./auth_web.py &
++if [ $# -eq 0 ] ; then
++	$1 = "none";
++fi
 +
-+while [ ! -f alexaToken.py ];
-+do
-+    sleep 1;
-+done;
++if [ ! -f creds.py ] || [ $1 = "auto" ] ; then
++	echo "" > creds.py
++	rm alexaToken.py 2>&1
 +
++	echo "Enter your Device Type ID :"
++	read productid
++	echo ProductID = \"$productid\" >> creds.py
++
++	echo "Enter your Security Profile Description:"
++	read spd
++	echo Security_Profile_Description = \"$spd\" >> creds.py
++
++	echo "Enter your Security Profile ID:"
++	read spid
++	echo Security_Profile_ID = \"$spid\" >> creds.py
++
++	echo "Enter your Security Client ID:"
++	read cid
++	echo Client_ID = \"$cid\" >> creds.py
++
++	echo "Enter your Security Client Secret:"
++	read secret
++	echo Client_Secret = \"$secret\" >> creds.py
++
++	printf "\nStarting web server..."
++
++	python ./auth_web.py &
++
++	while [ ! -f alexaToken.py ];
++	do
++    		sleep 1;
++	done;
++fi
 +echo "Starting Alexa..."
 +python main.py
  

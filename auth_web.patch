@@ -1,6 +1,6 @@
 --- /home/andrew/Github/AlexaPi/auth_web.py	2017-02-14 13:01:33.083942183 -0800
-+++ /home/andrew/Github/AlexaPi2/auth_web.py	2017-02-16 16:04:45.312969875 -0800
-@@ -3,9 +3,12 @@
++++ /home/andrew/Github/AlexaPi2/auth_web.py	2017-02-16 16:24:01.182276986 -0800
+@@ -3,6 +3,8 @@
  import cherrypy
  import os
  from cherrypy.process import servers
@@ -9,11 +9,7 @@
  import requests
  import json
  from creds import *
-+from alexaToken import *
- import urllib
- 
- class Start(object):
-@@ -32,14 +35,39 @@
+@@ -32,14 +34,39 @@
  		url = "https://api.amazon.com/auth/o2/token"
  		r = requests.post(url, data = payload)
  		resp = r.json()
