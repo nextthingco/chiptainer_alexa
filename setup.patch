@@ -1,9 +1,8 @@
 --- /home/andrew/Github/AlexaPi/setup.sh	2017-02-14 13:01:33.083942183 -0800
-+++ /home/andrew/Github/AlexaPi2/setup.sh	2017-02-16 17:03:51.673913332 -0800
++++ /home/andrew/Github/AlexaPi2/setup.sh	2017-02-16 17:30:17.238995532 -0800
 @@ -1,36 +1,44 @@
 -#! /bin/bash
-+#! /bin/sh
- 
+-
 -apt-get update
 -apt-get install libasound2-dev memcached mpg123 python-alsaaudio -y
 -easy_install pip
@@ -37,6 +36,8 @@
 -echo "Open http://$ip:5000"
 -
 -echo "You can now reboot"
++#! /bin/sh
+ 
 +if [ $# -eq 0 ] ; then
 +	$1 = "none";
 +fi
@@ -47,6 +48,7 @@
 +		rm alexaToken.py 2>&1
 +	fi
 +
++	printf "Visit https://developer.amazon.com/ to find the following information.\nMore detailed instructions can be found here:https://ntc.githost.io/nextthingco/chiptainer_alexa/blob/master/README.md\n" 
 +	echo "Enter your Device Type ID :"
 +	read productid
 +	echo ProductID = \"$productid\" >> creds.py
@@ -78,4 +80,3 @@
 +fi
 +echo "Starting Alexa..."
 +python main.py
- 
