@@ -1,4 +1,4 @@
-# CHIPtainer Example: Wifi Access Point
+# CHIPtainer Example: Alexa
 
 This is a Docker file for building a container that allows you to record a question and have Alexa answer back.
 
